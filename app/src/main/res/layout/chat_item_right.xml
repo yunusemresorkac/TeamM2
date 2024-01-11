@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_margin="@dimen/_4sdp"
+    >
+
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_chat_bg"
+        android:padding="@dimen/_10sdp"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/messageLay"
+
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/message"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:text="merhaba"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/one_little"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/time"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:text="12.30"
+            android:textColor="@color/colorAccent"
+            android:layout_below="@id/message"
+            android:gravity="start"
+            android:textSize="13sp"
+            android:fontFamily="@font/one_little"/>
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+</RelativeLayout>

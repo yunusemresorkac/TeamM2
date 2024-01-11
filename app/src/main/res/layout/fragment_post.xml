@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recyclerView"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gönderileri görmek için giriş yapmalı ve yeni kanallar takip etmelisin."
+        android:layout_centerInParent="true"
+        android:textColor="?android:textColorPrimary"
+        android:fontFamily="@font/one_little"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginHorizontal="@dimen/_20sdp"
+        android:id="@+id/infoText"/>
+
+
+</RelativeLayout>

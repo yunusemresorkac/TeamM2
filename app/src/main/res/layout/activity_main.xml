@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:id="@+id/drawerLayout"
+
+    tools:context=".activities.MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/menuMainLay"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_centerVertical="true"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/logo_transparent"
+                app:tint="?android:textColorPrimary" />
+
+
+            <ImageView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:id="@+id/menuBtn"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/baseline_menu_24"
+                app:tint="?android:textColorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:orientation="horizontal"
+                android:background="@drawable/top_menu_bg"
+                android:id="@+id/menuLay"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="@dimen/_70sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:padding="@dimen/_8sdp"
+                >
+
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/steam"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:src="@drawable/steam_svgrepo_com"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/epic"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:src="@drawable/epic_games_svgrepo_com"/>
+
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/news"
+                    android:background="?selectableItemBackgroundBorderless"
+
+                    android:src="@drawable/global_search_international_seo_svgrepo_com"/>
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/menuMainLay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationDrawerMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:itemTextColor="@color/black"
+        app:headerLayout="@layout/header_lay"
+        android:layout_gravity="end"
+        app:menu="@menu/drawer_menu">
+
+
+
+
+
+    </com.google.android.material.navigation.NavigationView>
+
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

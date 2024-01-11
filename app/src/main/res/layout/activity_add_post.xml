@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.AddPostActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        app:title="Yeni Gönderi">
+
+        <ImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:src="@drawable/send_svgrepo_com__1_"
+            android:layout_gravity="end"
+            android:id="@+id/sharePost"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="?selectableItemBackgroundBorderless"
+            app:tint="?android:textColorPrimary" />
+
+
+    </androidx.appcompat.widget.Toolbar>
+    
+    
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_6sdp"
+                app:boxStrokeColor="?android:textColorPrimary"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/titleEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_70sdp"
+                    android:gravity="start"
+                    android:hint="Başlık"
+                    android:textColor="?android:textColorPrimary"
+                    android:maxLength="75"
+                    android:fontFamily="@font/one_little"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Resim Yükle"
+                android:fontFamily="@font/one_little"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:padding="@dimen/_5sdp"
+                app:cornerRadius="@dimen/_10sdp"
+                android:id="@+id/galleryBtn"/>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recyclerView"
+                tools:listitem="@layout/gallery_item"
+                app:spanCount="3"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
+
+
+
+        </LinearLayout>
+        
+        
+    </androidx.core.widget.NestedScrollView>
+    
+</LinearLayout>

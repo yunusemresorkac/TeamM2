@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="?android:actionBarSize"
+    android:orientation="vertical"
+    >
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:id="@+id/coinLay"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:src="@drawable/banking_coin_svgrepo_com"
+                    android:layout_centerVertical="true"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:textColorPrimary"
+                    android:text="M2 Coin: 0"
+                    android:fontFamily="@font/one_little"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:id="@+id/coinText"/>
+
+
+
+            </RelativeLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/_8sdp"
+                app:cardUseCompatPadding="true"
+                android:foreground="?android:selectableItemBackground"
+                android:id="@+id/searchCard"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginHorizontal="@dimen/_4sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_5sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/iconSearch"
+                        android:src="@drawable/search_svgrepo_com"
+                        app:tint="?android:textColorPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/iconSearch"
+                        android:fontFamily="@font/one_little"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="Kullanıcı Ara"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/_8sdp"
+                app:cardUseCompatPadding="true"
+                android:foreground="?android:selectableItemBackground"
+                android:id="@+id/postsCard"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginHorizontal="@dimen/_4sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_5sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/iconPost"
+                        android:src="@drawable/send_svgrepo_com__1_"
+                        app:tint="?android:textColorPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/iconPost"
+                        android:fontFamily="@font/one_little"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="Gönderiler"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/_8sdp"
+                app:cardUseCompatPadding="true"
+                android:foreground="?android:selectableItemBackground"
+                android:id="@+id/messagesCard"
+                android:layout_marginHorizontal="@dimen/_4sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_5sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/iconMsg"
+                        android:src="@drawable/message_square_lines_alt_svgrepo_com"
+                        app:tint="?android:textColorPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/iconMsg"
+                        android:fontFamily="@font/one_little"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="Mesajlar"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/_8sdp"
+                app:cardUseCompatPadding="true"
+
+                android:foreground="?android:selectableItemBackground"
+                android:id="@+id/roomsCard"
+                android:layout_marginHorizontal="@dimen/_4sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_5sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/iconRoom"
+                        android:src="@drawable/room_svgrepo_com"
+                        app:tint="?android:textColorPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/iconRoom"
+                        android:fontFamily="@font/one_little"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="Oyun Odaları"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+
+
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/_8sdp"
+                app:cardUseCompatPadding="true"
+
+                android:foreground="?android:selectableItemBackground"
+                android:id="@+id/shopCard"
+                android:layout_marginHorizontal="@dimen/_4sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_5sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/shopIcon"
+                        android:src="@drawable/shop_svgrepo_com__3_"
+                        app:tint="?android:textColorPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/shopIcon"
+                        android:fontFamily="@font/one_little"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="Mağaza"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+
+
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true"
+
+                app:cardCornerRadius="@dimen/_8sdp"
+                android:foreground="?android:selectableItemBackground"
+                android:id="@+id/profileCard"
+                android:layout_marginHorizontal="@dimen/_4sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_5sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/iconProfile"
+                        android:src="@drawable/profile_user_svgrepo_com"
+                        app:tint="?android:textColorPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/iconProfile"
+                        android:fontFamily="@font/one_little"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="Profil"
+                        android:id="@+id/profileText"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true"
+
+                app:cardCornerRadius="@dimen/_8sdp"
+                android:foreground="?android:selectableItemBackground"
+                android:id="@+id/earnCoinCard"
+                android:layout_marginHorizontal="@dimen/_4sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_5sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/iconCoin"
+                        android:src="@drawable/banking_coin_svgrepo_com"
+                         />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/iconCoin"
+                        android:fontFamily="@font/one_little"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="Coin Kazan"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/_8sdp"
+                android:id="@+id/goSettingsCard"
+                app:cardUseCompatPadding="true"
+
+                android:foreground="?android:selectableItemBackground"
+
+                android:layout_marginHorizontal="@dimen/_4sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_5sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/baseline_settings_24"
+                        android:id="@+id/themeIcon"
+                        app:tint="?android:textColorPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/themeIcon"
+                        android:fontFamily="@font/one_little"
+                        android:text="Ayarlar"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/_8sdp"
+                android:id="@+id/signOutCard"
+                android:foreground="?android:selectableItemBackground"
+                android:visibility="gone"
+                android:layout_margin="@dimen/_8sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_5sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/baseline_logout_24"
+                        android:id="@+id/iconOut"
+                        app:tint="?android:textColorPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/iconOut"
+                        android:fontFamily="@font/one_little"
+                        android:text="Çıkış Yap"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+</LinearLayout>

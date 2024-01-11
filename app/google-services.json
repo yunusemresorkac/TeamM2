@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "996460800304",
+    "project_id": "gamenews-c03d0",
+    "storage_bucket": "gamenews-c03d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996460800304:android:a304e62a8564742df100f5",
+        "android_client_info": {
+          "package_name": "com.app.gamenews"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCr2iU1KoirB3ZEQJVRYckgKPOF4-ncO4s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

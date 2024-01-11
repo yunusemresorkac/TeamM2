@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.CommentActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        app:title="Yorumlar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/chatsLay"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/inputLay"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="vertical">
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/comment_item"
+            android:id="@+id/recyclerView"/>
+
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:padding="@dimen/_10sdp"
+        android:id="@+id/inputLay">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rect_button"
+            android:padding="@dimen/_8sdp"
+            android:hint="Bir şeyler yaz"
+            android:backgroundTint="?android:textColorPrimaryInverse"
+            android:layout_centerVertical="true"
+            android:maxLength="1000"
+            android:id="@+id/commentEt"
+            android:layout_toStartOf="@id/sendCommentBtn"
+            android:textColor="?android:textColorPrimary"/>
+
+        <ImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:src="@drawable/send_svgrepo_com__1_"
+            android:id="@+id/sendCommentBtn"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_alignParentEnd="true"
+            app:tint="?android:textColorPrimary"
+            android:background="?selectableItemBackgroundBorderless"/>
+
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

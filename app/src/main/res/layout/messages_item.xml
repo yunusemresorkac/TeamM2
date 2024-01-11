@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:background="@drawable/messages_bg"
+    android:padding="@dimen/_5sdp"
+
+    android:layout_margin="@dimen/_4sdp"
+    >
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/profile_user_svgrepo_com"
+        android:id="@+id/userImage"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:id="@+id/messageLay"
+
+        >
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/username"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:text="Username"
+            android:maxLines="1"
+
+            android:gravity="start"
+            android:textColor="?android:textColorPrimary"
+            android:fontFamily="@font/one_little"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lastMessage"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:text="last"
+            android:layout_below="@id/username"
+            android:maxLines="1"
+            android:gravity="start"
+            android:textColor="?android:textColorPrimary"
+            android:fontFamily="@font/one_little"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/time"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:layout_alignParentEnd="true"
+            android:text="12.30"
+            android:maxLines="1"
+
+            android:textColor="@color/colorAccent"
+            android:gravity="start"
+            android:textSize="12sp"
+            android:fontFamily="@font/one_little"/>
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+</LinearLayout>
