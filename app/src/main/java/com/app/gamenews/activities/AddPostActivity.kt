@@ -195,6 +195,10 @@ class AddPostActivity : AppCompatActivity(), GalleryAdapter.GalleryClick {
             }
         }
 
+
+
+
+
     override fun deletePhoto(position : Int) {
         imageList.removeAt(position)
         galleryAdapter.notifyDataSetChanged()

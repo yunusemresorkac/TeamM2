@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id ("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+
 }
 
 android {
@@ -61,6 +63,8 @@ dependencies {
     implementation ("com.google.firebase:firebase-messaging:23.2.1")
     implementation ("com.google.firebase:firebase-firestore:24.7.1")
     implementation ("com.google.firebase:firebase-storage:20.2.1")
+    implementation ("com.google.firebase:firebase-crashlytics:18.3.1")
+
     implementation ("com.google.android.play:core:1.10.3")
 
     implementation ("androidx.multidex:multidex:2.0.1")

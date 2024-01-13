@@ -40,7 +40,7 @@
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:src="@drawable/message_square_lines_alt_svgrepo_com"
                 android:background="?selectableItemBackgroundBorderless"
-                app:tint="@color/black" />
+                app:tint="#787878" />
 
 
         </androidx.appcompat.widget.Toolbar>

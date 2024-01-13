@@ -135,6 +135,37 @@ class ChatRepo {
 
     }
 
+    fun markMessageAsRead(chat: Chat) {
+        CoroutineScope(Dispatchers.IO).launch {
+            db.collection("Chats").document(chat.senderId)
+                .collection("Users").document(chat.receiverId)
+                .collection("Messages").document(chat.chatId)
+                .update("read", true)
+                .addOnSuccessListener {
+                    db.collection("Chats").document(chat.receiverId)
+                        .collection("Users").document(chat.senderId)
+                        .collection("Messages").document(chat.chatId)
+                        .update("read", true).addOnSuccessListener {
+                        }
+                }
+        }
+
+    }
+
+     fun markLastMessageAsRead(chat: Chat){
+        CoroutineScope(Dispatchers.IO).launch {
+            db.collection("Chats").document(chat.senderId)
+                .collection("Users").document(chat.receiverId)
+                .update("read",true).addOnSuccessListener {
+                    db.collection("Chats").document(chat.receiverId)
+                        .collection("Users").document(chat.senderId)
+                        .update("read",true).addOnSuccessListener {
+
+                        }
+                }
+        }
+    }
+
 
 //    private fun getMessages(myId : String, userId : String): Flow<List<Chat>> = callbackFlow {
 //        val chatReference = FirebaseFirestore.getInstance().collection("Chats")
@@ -176,6 +207,32 @@ class ChatRepo {
 
 
 
+    fun getUnreadMessages(userId: String,callback: (Int?) -> Unit){
+        val chatsCollection = db.collection("Chats").document(userId)
+            .collection("Users").whereEqualTo("read",false)
+
+        chatsCollection.get()
+            .addOnSuccessListener { documents ->
+                // Okuma başarılı oldu
+                for (document in documents) {
+                    val chat = document.toObject(Chat::class.java)
+                    if (userId.equals(chat.receiverId)){
+                        val unreadChatsCount = documents.size()
+                        callback(unreadChatsCount)
+                        println("UserId $userId için okunmamış mesaj sayısı: $unreadChatsCount")
+                    }
+
+                }
+
+
+            }
+            .addOnFailureListener { exception ->
+                // Hata durumunda
+                callback(0)
+
+                println("Okunmamış mesaj sayısı alınamadı: $exception")
+            }
+    }
 
 
 

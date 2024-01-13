@@ -3,6 +3,8 @@ package com.app.gamenews.controller
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration.UI_MODE_NIGHT_MASK
@@ -49,48 +51,98 @@ class DummyMethods {
 
         fun getWritePermission(context: Context ): Boolean {
             var checkPermission = false
-            Dexter.withActivity(context as Activity?)
-                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .withListener(object : PermissionListener {
-                    override fun onPermissionGranted(response: PermissionGrantedResponse) {
-                        checkPermission = true
-                    }
 
-                    override fun onPermissionDenied(response: PermissionDeniedResponse) {
-                        checkPermission = false
-                    }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                Dexter.withActivity(context as Activity?)
+                    .withPermission(Manifest.permission.READ_MEDIA_IMAGES)
+                    .withListener(object : PermissionListener {
+                        override fun onPermissionGranted(response: PermissionGrantedResponse) {
+                            checkPermission = true
+                        }
 
-                    override fun onPermissionRationaleShouldBeShown(
-                        permission: PermissionRequest?,
-                        token: PermissionToken
-                    ) {
-                        token.continuePermissionRequest()
-                    }
-                }).check()
+                        override fun onPermissionDenied(response: PermissionDeniedResponse) {
+                            checkPermission = false
+                        }
+
+                        override fun onPermissionRationaleShouldBeShown(
+                            permission: PermissionRequest?,
+                            token: PermissionToken
+                        ) {
+                            token.continuePermissionRequest()
+                        }
+                    }).check()
+            }else{
+                Dexter.withActivity(context as Activity?)
+                    .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .withListener(object : PermissionListener {
+                        override fun onPermissionGranted(response: PermissionGrantedResponse) {
+                            checkPermission = true
+                        }
+
+                        override fun onPermissionDenied(response: PermissionDeniedResponse) {
+                            checkPermission = false
+                        }
+
+                        override fun onPermissionRationaleShouldBeShown(
+                            permission: PermissionRequest?,
+                            token: PermissionToken
+                        ) {
+                            token.continuePermissionRequest()
+                        }
+                    }).check()
+
+            }
             return checkPermission
+
+
         }
 
         fun getReadGalleryPermission(context: Context ): Boolean {
             var checkPermission = false
-            Dexter.withActivity(context as Activity?)
-                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(object : PermissionListener {
-                    override fun onPermissionGranted(response: PermissionGrantedResponse) {
-                        checkPermission = true
-                    }
 
-                    override fun onPermissionDenied(response: PermissionDeniedResponse) {
-                        checkPermission = false
-                    }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                Dexter.withActivity(context as Activity?)
+                    .withPermission(Manifest.permission.READ_MEDIA_IMAGES)
+                    .withListener(object : PermissionListener {
+                        override fun onPermissionGranted(response: PermissionGrantedResponse) {
+                            checkPermission = true
+                        }
 
-                    override fun onPermissionRationaleShouldBeShown(
-                        permission: PermissionRequest?,
-                        token: PermissionToken
-                    ) {
-                        token.continuePermissionRequest()
-                    }
-                }).check()
+                        override fun onPermissionDenied(response: PermissionDeniedResponse) {
+                            checkPermission = false
+                        }
+
+                        override fun onPermissionRationaleShouldBeShown(
+                            permission: PermissionRequest?,
+                            token: PermissionToken
+                        ) {
+                            token.continuePermissionRequest()
+                        }
+                    }).check()
+            }else{
+                Dexter.withActivity(context as Activity?)
+                    .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .withListener(object : PermissionListener {
+                        override fun onPermissionGranted(response: PermissionGrantedResponse) {
+                            checkPermission = true
+                        }
+
+                        override fun onPermissionDenied(response: PermissionDeniedResponse) {
+                            checkPermission = false
+                        }
+
+                        override fun onPermissionRationaleShouldBeShown(
+                            permission: PermissionRequest?,
+                            token: PermissionToken
+                        ) {
+                            token.continuePermissionRequest()
+                        }
+                    }).check()
+
+            }
             return checkPermission
+
+
         }
 
 
@@ -102,17 +154,17 @@ class DummyMethods {
             val diff = (now - time) / 1000
 
             return when {
-                diff < MINUTE -> "Just now"
-                diff < 2 * MINUTE -> "a minute ago"
-                diff < 60 * MINUTE -> "${diff / MINUTE} minutes ago"
-                diff < 2 * HOUR -> "an hour ago"
-                diff < 24 * HOUR -> "${diff / HOUR} hours ago"
-                diff < 2 * DAY -> "yesterday"
-                diff < 30 * DAY -> "${diff / DAY} days ago"
-                diff < 2 * MONTH -> "a month ago"
-                diff < 12 * MONTH -> "${diff / MONTH} months ago"
-                diff < 2 * YEAR -> "a year ago"
-                else -> "${diff / YEAR} years ago"
+                diff < MINUTE -> "Şimdi"
+                diff < 2 * MINUTE -> "1 dk önce"
+                diff < 60 * MINUTE -> "${diff / MINUTE} dk önce"
+                diff < 2 * HOUR -> "bir saat önce"
+                diff < 24 * HOUR -> "${diff / HOUR} saat önce"
+                diff < 2 * DAY -> "dün"
+                diff < 30 * DAY -> "${diff / DAY} gün önce"
+                diff < 2 * MONTH -> "bir ay önce"
+                diff < 12 * MONTH -> "${diff / MONTH} ay önce"
+                diff < 2 * YEAR -> "bir yıl önce"
+                else -> "${diff / YEAR} yıl önce"
             }
         }
 
@@ -219,6 +271,13 @@ class DummyMethods {
             val goodFormat = SimpleDateFormat("dd MMMM HH:mm") // Türkçe olarak örnek
             return goodFormat.format(date!!)
         }
+
+        fun copyText(context: Context, label  :String, text : String){
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText(label,text)
+            clipboard.setPrimaryClip(clip)
+        }
+
 
     }
 

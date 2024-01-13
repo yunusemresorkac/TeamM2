@@ -17,7 +17,7 @@ import kotlinx.coroutines.tasks.await
 
 class SteamRepo {
 
-    private val pageSize = 1
+    private val pageSize = 5
     private var lastVisible: DocumentSnapshot? = null
     private var isFetching = false
 

@@ -41,6 +41,22 @@
             android:textSize="13sp"
             android:fontFamily="@font/one_little"/>
 
+        <TextView
+            android:id="@+id/readText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/time"
+            android:layout_below="@id/message"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:fontFamily="@font/one_little"
+            android:gravity="start"
+            android:labelFor="@id/time"
+            android:text=""
+            android:textColor="@color/colorAccent"
+            android:textSize="13sp" />
+
+
 
     </RelativeLayout>
 

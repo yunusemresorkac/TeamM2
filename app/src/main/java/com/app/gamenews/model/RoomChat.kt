@@ -1,13 +1,10 @@
 package com.app.gamenews.model
 
-data class Chat(
+data class RoomChat(
     val senderId : String = "",
-    val receiverId : String = "",
     val time : String = "",
+    val roomId: String = "",
     val chatId : String = "",
-    val message : String = "",
-    var read: Boolean = false
-
-){
-
+    val message : String = ""
+) {
 }

@@ -8,11 +8,6 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.AuthFailureError
-import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.app.gamenews.R
 import com.app.gamenews.adapter.ChatAdapter
 import com.app.gamenews.controller.DummyMethods
@@ -33,9 +28,19 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
+import retrofit2.http.Headers
+import retrofit2.http.POST
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -50,7 +55,6 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var chatList : ArrayList<Chat>
     private lateinit var receiverId : String
     private val userViewModel by viewModel<UserViewModel>()
-    private var requestQueue: RequestQueue? = null
     private var isLoading = false
 
     private val timeViewModel by viewModel<TimeViewModel>()
@@ -68,7 +72,6 @@ class ChatActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
-        requestQueue = Volley.newRequestQueue(this)
         firebaseUser = FirebaseAuth.getInstance().currentUser
         receiverId = intent.getStringExtra("receiverId").toString()
         firebaseUser?.let { StatusManager().setUserOnline(it,userViewModel,this) }
@@ -94,33 +97,52 @@ class ChatActivity : AppCompatActivity() {
                     isLoading = true
                     chatViewModel.loadMoreData(firebaseUser!!.uid, receiverId)
                 }
+                val lastVisibleItemPosition = layoutManager?.findLastVisibleItemPosition() ?: 0
+                val totalItemCount = layoutManager?.itemCount ?: 0
+                if (totalItemCount - 1 == lastVisibleItemPosition) {
+                    // RecyclerView'ın en altına gelindi
+                    markUnreadMessagesAsRead()
+                }
             }
         })
 
 
     }
 
+    private fun markUnreadMessagesAsRead() {
+        val layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager?
+        val lastVisibleItemPosition = layoutManager?.findLastVisibleItemPosition() ?: 0
+
+        // Okunmamış mesajları işaretle
+        for (i in lastVisibleItemPosition downTo 0) {
+            val chat = chatList.getOrNull(i)
+            if (chat != null && !chat.read && firebaseUser?.uid.equals(chat.receiverId)) {
+                chatViewModel.markMessageAsRead(chat)
+            }
+        }
+    }
+
+
     private fun sendMessage(){
         if (binding.messageEt.text.toString().trim().isNotEmpty()){
             val iso8601Format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-            iso8601Format.timeZone = TimeZone.getTimeZone("UTC") // Zaman dilimini ayarlayalım (opsiyonel, Firestore genellikle UTC kullanır)
+            iso8601Format.timeZone = TimeZone.getTimeZone("UTC")
 
             val currentDate = iso8601Format.format(Date())
-            val now = System.currentTimeMillis()
             val chat = firebaseUser?.let { Chat(it.uid,receiverId, currentDate,DummyMethods.generateRandomString(10),
                 binding.messageEt.text.toString().trim()) }
 
             chat?.let { chatViewModel.sendMessage(it,this) }
-            binding.messageEt.text.clear()
 
             if (binding.status.text.equals("•Çevrimdışı")){
-                firebaseUser?.let {
-                    userViewModel.getUsername(this, firebaseUser!!.uid){ myName ->
-                        sendNotification(receiverId,binding.messageEt.text.toString().trim(),myName,
-                            firebaseUser!!.uid)
-                    }
+                userViewModel.getUsername(this, firebaseUser!!.uid){ myName ->
+
+                    sendNotification(receiverId,binding.messageEt.text.toString().trim(),myName,
+                        firebaseUser!!.uid)
                 }
             }
+            binding.messageEt.text.clear()
+
         }
     }
 
@@ -171,7 +193,6 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun sendNotification(receiver: String, message: String, title: String, sender: String) {
-
         val db = FirebaseFirestore.getInstance()
         val tokensCollection = db.collection("Tokens")
         val query = tokensCollection.whereEqualTo(FieldPath.documentId(), receiver)
@@ -187,31 +208,27 @@ class ChatActivity : AppCompatActivity() {
                     receiver,
                     R.mipmap.ic_launcher_round
                 )
-                val senderData = Sender(token,data)
+                val senderData = Sender(token, data)
 
                 try {
-                    val senderJsonObj = JSONObject(Gson().toJson(senderData))
-                    val jsonObjectRequest = object : JsonObjectRequest(
-                        "https://fcm.googleapis.com/fcm/send",
-                        senderJsonObj,
-                        Response.Listener { response ->
-                            Log.d("JSON_RESPONSE 0", "onResponseSuccess: $response")
+                    val retrofit = Retrofit.Builder()
+                        .baseUrl("https://fcm.googleapis.com/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .client(OkHttpClient.Builder().build())
+                        .build()
 
-                        },
-                        Response.ErrorListener { error ->
-                            Log.d("JSON_RESPONSE 1", "onResponseError: $error")
+                    val apiService = retrofit.create(ApiService::class.java)
+                    val call = apiService.sendNotification(senderData)
 
-                        }) {
-                        @Throws(AuthFailureError::class)
-                        override fun getHeaders(): Map<String, String> {
-                            val headers = HashMap<String, String>()
-
-                            headers["Content-Type"] = "application/json"
-                            headers["Authorization"] = "key=${Constants.FCM_KEY}"
-                            return headers
+                    call.enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                            Log.d("RETROFIT_RESPONSE", "onResponseSuccess: ${response.body()?.string()}")
                         }
-                    }
-                    requestQueue!!.add(jsonObjectRequest)
+
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            Log.d("RETROFIT_RESPONSE", "onFailure: $t")
+                        }
+                    })
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -220,6 +237,8 @@ class ChatActivity : AppCompatActivity() {
             Log.d("QUERY_ERROR", "Failed to query tokens collection: $error")
         }
     }
+
+
 
     override fun onRestart() {
         super.onRestart()
@@ -238,5 +257,15 @@ class ChatActivity : AppCompatActivity() {
         firebaseUser?.let { StatusManager().setUserOffline(it,userViewModel,this) }
 
     }
+
+    interface ApiService {
+        @Headers(
+            "Content-Type: application/json",
+            "Authorization: key=${Constants.FCM_KEY}"
+        )
+        @POST("fcm/send")
+        fun sendNotification(@Body sender: Sender): Call<ResponseBody>
+    }
+
 
 }

@@ -45,24 +45,25 @@ class GamesAdapter(
         initPhotoAdapter(holder, news)
 
 
-
-        val likeManager = firebaseUser?.let { user ->
-            LikeManager(news.time, user.uid, object : LikeManager.LikeStatusListener {
-                override fun onLikeStatusChanged(liked: Boolean) {
-                    if (liked) {
-                        holder.binding.likeBtn.setImageResource(R.drawable.baseline_favorite_24)
-                    } else {
-                        holder.binding.likeBtn.setImageResource(R.drawable.baseline_favorite_border_24)
+        if (firebaseUser!=null){
+            val likeManager = firebaseUser?.let { user ->
+                LikeManager(news.time, user.uid, object : LikeManager.LikeStatusListener {
+                    override fun onLikeStatusChanged(liked: Boolean) {
+                        if (liked) {
+                            holder.binding.likeBtn.setImageResource(R.drawable.baseline_favorite_24)
+                        } else {
+                            holder.binding.likeBtn.setImageResource(R.drawable.baseline_favorite_border_24)
+                        }
                     }
-                }
-            },collectionName)
+                },collectionName)
+            }
+            likeManager?.startListening()
+            holder.binding.likeBtn.setOnClickListener {
+                gamesClick.clickLikeBtn(gameList[position], likeManager!!)
+            }
         }
-        likeManager?.startListening()
 
 
-        holder.binding.likeBtn.setOnClickListener {
-            gamesClick.clickLikeBtn(gameList[position], likeManager!!)
-        }
         holder.binding.detailsBtn.setOnClickListener {
             gamesClick.clickDetailsBtn(gameList[position])
         }

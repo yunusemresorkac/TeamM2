@@ -136,45 +136,7 @@
 
 
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/_8sdp"
-                app:cardUseCompatPadding="true"
-                android:foreground="?android:selectableItemBackground"
-                android:id="@+id/messagesCard"
-                android:layout_marginHorizontal="@dimen/_4sdp">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/_5sdp">
-
-                    <ImageView
-                        android:layout_width="@dimen/_24sdp"
-                        android:layout_height="@dimen/_24sdp"
-                        android:layout_centerVertical="true"
-                        android:id="@+id/iconMsg"
-                        android:src="@drawable/message_square_lines_alt_svgrepo_com"
-                        app:tint="?android:textColorPrimary" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@id/iconMsg"
-                        android:fontFamily="@font/one_little"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:text="Mesajlar"
-                        android:textColor="?android:textColorPrimary"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-
-                </RelativeLayout>
-
-
-            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

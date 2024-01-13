@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.http.UrlRequest.Status
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -25,6 +26,7 @@ import com.app.gamenews.fragments.PostFragment
 import com.app.gamenews.fragments.SteamFragment
 import com.app.gamenews.model.Post
 import com.app.gamenews.util.Constants
+import com.app.gamenews.viewmodel.ChatViewModel
 import com.app.gamenews.viewmodel.UserViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -44,6 +46,8 @@ class MainActivity : AppCompatActivity() {
     private var firebaseAuth : FirebaseAuth? = null
     private val userViewModel by viewModel<UserViewModel>()
     private lateinit var adsController : AdsController
+    private val chatViewModel by viewModel<ChatViewModel>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,124 +98,176 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        binding.unreadsLay.setOnClickListener {
+            handleMessagesCardClick()
+        }
+
+
+        if (firebaseUser!=null){
+            userViewModel.updateToken(FirebaseInstanceId.getInstance().token!!, firebaseUser!!.uid)
+            setupUnreadMessagesCounter()
+
+        }
         setMenu()
 
 
 
     }
 
-
-
-    private fun setMenu(){
+    private fun setMenu() {
         val header: View = binding.navigationDrawerMenu.getHeaderView(0)
+
+        // CardViews
         val goSettingsCard = header.findViewById<CardView>(R.id.goSettingsCard)
         val goProfileCard = header.findViewById<CardView>(R.id.profileCard)
-        val messagesCard = header.findViewById<CardView>(R.id.messagesCard)
         val roomsCard = header.findViewById<CardView>(R.id.roomsCard)
         val shopCard = header.findViewById<CardView>(R.id.shopCard)
         val postsCard = header.findViewById<CardView>(R.id.postsCard)
         val searchCard = header.findViewById<CardView>(R.id.searchCard)
-
         val signOutCard = header.findViewById<CardView>(R.id.signOutCard)
         val earnCoinCard = header.findViewById<CardView>(R.id.earnCoinCard)
 
+        // TextViews
         val profileText = header.findViewById<TextView>(R.id.profileText)
         val coinText = header.findViewById<TextView>(R.id.coinText)
+
+        // Layouts
         val coinLay = header.findViewById<RelativeLayout>(R.id.coinLay)
 
-        searchCard.setOnClickListener {
-            if (firebaseUser!=null){
-                startActivity(Intent(this,SearchActivity::class.java))
-            }else{
-                DummyMethods.showMotionToast(this,"Kullanıcı Aramak İçin Oturum Açmalısınız.","",
-                    MotionToastStyle.INFO)
-            }
-
+        // Check if user is authenticated
+        if (firebaseUser != null) {
+            setupAuthenticatedUserUI(postsCard,profileText,signOutCard,coinLay,coinText)
+        } else {
+            setupUnauthenticatedUserUI(postsCard,coinLay,profileText,signOutCard)
         }
 
-        if (firebaseUser !=null){
-            postsCard.visibility = View.VISIBLE
-            profileText.text = "Profil"
-            signOutCard.visibility = View.VISIBLE
-            coinLay.visibility = View.VISIBLE
-            userViewModel.getUserCoin(this, firebaseUser!!.uid){ coin ->
-                coinText.text = "M2 Coin: ${DummyMethods.formatDoubleNumber(coin)}"
-            }
-        }else{
-            postsCard.visibility = View.GONE
-            coinLay.visibility = View.GONE
-            profileText.text = "Kayıt Ol"
-            signOutCard.visibility = View.GONE
+        // Click listeners
+        searchCard.setOnClickListener {
+            handleSearchCardClick()
         }
 
         postsCard.setOnClickListener {
-            if (firebaseUser!=null){
-                binding.drawerLayout.closeDrawers()
-                NavFragment.openNewFragment(PostFragment(),this, R.id.fragment_container)
-
-            }
+            handlePostsCardClick()
         }
 
         earnCoinCard.setOnClickListener {
-            if (firebaseUser!=null){
-                adsController.showRewarded {
-                    userViewModel.updateCoin(this,firebaseUser!!.uid,Constants.BONUS_REVENUE)
-                    DummyMethods.showMotionToast(this,"${Constants.BONUS_REVENUE} Coin Eklendi","",
-                        MotionToastStyle.SUCCESS)
-                    adsController.loadRewarded()
-                }
+            handleEarnCoinCardClick()
+        }
 
+        roomsCard.setOnClickListener {
+            if (firebaseUser!=null){
+                startActivity(Intent(this,RoomsActivity::class.java))
             }else{
-                DummyMethods.showMotionToast(this,"Coin Kazanabilmek İçin Hesap Oluşturmalısın.","",
-                    MotionToastStyle.INFO)
+                DummyMethods.showMotionToast(this,"Odaları görmek için giriş yapmalısın","",MotionToastStyle.INFO)
             }
         }
 
-
-        messagesCard.setOnClickListener {
-            if (firebaseUser!=null){
-                startActivity(Intent(this,MessagesActivity::class.java))
-            }else{
-                DummyMethods.showMotionToast(this,"Mesajlaşabilmek için hesap oluşturmalısın.","",
-                    MotionToastStyle.INFO)
-
-            }
-        }
 
         signOutCard.setOnClickListener {
-            firebaseAuth?.signOut()
-            val intent = Intent(this,MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(intent)
+            handleSignOutCardClick()
         }
 
         goSettingsCard.setOnClickListener {
-            startActivity(Intent(this,OptionsActivity::class.java))
+            handleGoSettingsCardClick()
         }
 
         goProfileCard.setOnClickListener {
-            if (firebaseUser!=null){
-                startActivity(Intent(this,ProfileActivity::class.java)
-                    .putExtra("userId", firebaseUser?.uid)
-                )
-
-            }else{
-                startActivity(Intent(this,LoginActivity::class.java))
-
-            }
+            handleGoProfileCardClick()
         }
-
     }
 
-    private fun updateStatusBarColor() {
-        val isDarkMode = (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+    private fun setupAuthenticatedUserUI(postsCard :CardView, profileText : TextView, signOutCard : CardView, coinLay : RelativeLayout, coinText : TextView) {
+        postsCard.visibility = View.VISIBLE
+        profileText.text = "Profil"
+        signOutCard.visibility = View.VISIBLE
+        coinLay.visibility = View.VISIBLE
 
-        if (isDarkMode) {
-            // Karanlık moddaysa
-            window.statusBarColor = ContextCompat.getColor(this, R.color.black)
+        userViewModel.getUserCoin(this, firebaseUser!!.uid) { coin ->
+            coinText.text = "M2 Coin: ${DummyMethods.formatDoubleNumber(coin)}"
+        }
+    }
+
+    private fun setupUnreadMessagesCounter() {
+        chatViewModel.getUnreadMessages(firebaseUser!!.uid) { size ->
+            size?.let {
+                if (size < 1) {
+                    binding.unreadsImage.setImageResource(R.drawable.message_square_lines_alt_svgrepo_com)
+                    binding.unReadMessages.visibility = View.GONE
+                } else {
+                    binding.unreadsImage.setImageResource(R.drawable.unread_mail_svgrepo_com)
+                    binding.unReadMessages.visibility = View.VISIBLE
+                    binding.unReadMessages.text = "$size"
+                }
+            }
+        }
+    }
+
+    private fun setupUnauthenticatedUserUI(postsCard: CardView, coinLay: RelativeLayout, profileText: TextView, signOutCard: CardView) {
+        postsCard.visibility = View.GONE
+        coinLay.visibility = View.GONE
+        profileText.text = "Kayıt Ol"
+        signOutCard.visibility = View.GONE
+    }
+
+    private fun handleSearchCardClick() {
+        if (firebaseUser != null) {
+            startActivity(Intent(this, SearchActivity::class.java))
         } else {
-            // Normal moddaysa
-            window.statusBarColor = ContextCompat.getColor(this, R.color.white)
+            DummyMethods.showMotionToast(
+                this,
+                "Kullanıcı Aramak İçin Oturum Açmalısınız.",
+                "",
+                MotionToastStyle.INFO
+            )
+        }
+    }
+
+    private fun handlePostsCardClick() {
+        if (firebaseUser != null) {
+            binding.drawerLayout.closeDrawers()
+            NavFragment.openNewFragment(PostFragment(), this, R.id.fragment_container)
+        }
+    }
+
+    private fun handleEarnCoinCardClick() {
+        if (firebaseUser != null) {
+            adsController.showRewarded {
+                userViewModel.updateCoin(this, firebaseUser!!.uid, Constants.BONUS_REVENUE)
+                DummyMethods.showMotionToast(this, "${Constants.BONUS_REVENUE} Coin Eklendi", "", MotionToastStyle.SUCCESS)
+                adsController.loadRewarded()
+            }
+        } else {
+            DummyMethods.showMotionToast(this, "Coin Kazanabilmek İçin Hesap Oluşturmalısın.", "", MotionToastStyle.INFO)
+        }
+    }
+
+    private fun handleMessagesCardClick() {
+        if (firebaseUser != null) {
+            startActivity(Intent(this, MessagesActivity::class.java))
+        } else {
+            DummyMethods.showMotionToast(this, "Mesajlaşabilmek için hesap oluşturmalısın.", "", MotionToastStyle.INFO)
+        }
+    }
+
+    private fun handleSignOutCardClick() {
+        firebaseAuth?.signOut()
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+    }
+
+    private fun handleGoSettingsCardClick() {
+        startActivity(Intent(this, OptionsActivity::class.java))
+    }
+
+    private fun handleGoProfileCardClick() {
+        if (firebaseUser != null) {
+            startActivity(
+                Intent(this, ProfileActivity::class.java)
+                    .putExtra("userId", firebaseUser?.uid)
+            )
+        } else {
+            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 

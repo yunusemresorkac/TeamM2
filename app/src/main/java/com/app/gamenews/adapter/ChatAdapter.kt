@@ -4,17 +4,19 @@ package com.app.gamenews.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.app.gamenews.R
 import com.app.gamenews.controller.DummyMethods
 import com.app.gamenews.databinding.ChatItemBinding
 import com.app.gamenews.databinding.ChatItemRightBinding
 import com.app.gamenews.model.Chat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FieldValue
+import www.sanju.motiontoast.MotionToastStyle
 
 
 class ChatAdapter(private val chatList: ArrayList<Chat>, private val context: Context
@@ -63,6 +65,11 @@ class ChatAdapter(private val chatList: ArrayList<Chat>, private val context: Co
         val chat = chatList[position]
 
 
+        holder.itemView.setOnLongClickListener {
+            DummyMethods.copyText(context, "message", chat.message)
+            DummyMethods.showMotionToast(context,"Kopyalandı","",MotionToastStyle.INFO)
+            true
+        }
 
         when (holder) {
             is LeftViewHolder -> {
@@ -73,12 +80,20 @@ class ChatAdapter(private val chatList: ArrayList<Chat>, private val context: Co
             is RightViewHolder -> {
                 holder.binding.message.text = chat.message
                 holder.binding.time.text = DummyMethods.formatIsoDate(chat.time)
+                updateReadStatus(holder, chat.read)
+
                 // Bind right view holder data
             }
         }
 
     }
-
+    private fun updateReadStatus(holder: RightViewHolder, isRead: Boolean) {
+        if (isRead) {
+            holder.binding.readText.text = "✓✓"
+        } else {
+            holder.binding.readText.text = "✓"
+        }
+    }
 
     override fun getItemCount(): Int {
         return chatList.size

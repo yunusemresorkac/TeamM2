@@ -18,7 +18,7 @@ class MyPostRepo {
 
     private val db = FirebaseFirestore.getInstance()
 
-    private val pageSize = 10
+    private val pageSize = 5
     private var lastVisible: DocumentSnapshot? = null
     private var isFetching = false
 

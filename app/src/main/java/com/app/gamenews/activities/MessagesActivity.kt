@@ -1,5 +1,7 @@
 package com.app.gamenews.activities
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -35,6 +37,7 @@ class MessagesActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener {
+            startActivity(Intent(this,MainActivity::class.java))
             finish()
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
@@ -52,7 +55,7 @@ class MessagesActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.setHasFixedSize(true)
-        messagesAdapter = MessagesAdapter(messagesList,this, userViewModel)
+        messagesAdapter = MessagesAdapter(messagesList,this, userViewModel,chatViewModel)
         binding.recyclerView.adapter = messagesAdapter
     }
 
@@ -77,5 +80,12 @@ class MessagesActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("MissingSuperCall")
+    override fun onBackPressed() {
+        startActivity(Intent(this,MainActivity::class.java))
+        finish()
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+
+    }
 
 }

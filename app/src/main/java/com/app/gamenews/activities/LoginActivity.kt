@@ -170,12 +170,11 @@ class LoginActivity : AppCompatActivity() {
 
                     val userId = authResult.user?.uid ?: ""
                     val user = User(userId,System.currentTimeMillis(),binding.usernameRegister.text.toString().trim()
-                    ,binding.emailRegister.text.toString().trim(),0.0,Constants.NORMAL_USER,Constants.ONLINE_STATUS,""
+                    ,binding.emailRegister.text.toString().trim(),0.0,Constants.NORMAL_USER,Constants.OFFLINE_STATUS,""
                     ,0,0)
 
                     firestore.collection("Users").document(userId)
                         .set(user).addOnCompleteListener {
-                            userViewModel.updateToken(FirebaseInstanceId.getInstance().token!!, userId)
 
                             pd.dismiss()
                             DummyMethods.showMotionToast(this@LoginActivity,"Hesabınız Oluşturuldu","",MotionToastStyle.SUCCESS)

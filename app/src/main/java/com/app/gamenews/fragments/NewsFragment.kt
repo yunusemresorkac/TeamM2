@@ -46,7 +46,6 @@ class NewsFragment : Fragment() {
 
         val menuBar = activity?.findViewById<LinearLayout>(R.id.menuLay)
 
-        menuBar?.let { showOrHideMenuWithAnimation(it) }
 
         initRecycler()
 
@@ -56,52 +55,6 @@ class NewsFragment : Fragment() {
 
     }
 
-    private fun showMenuWithFadeIn(menuBar: LinearLayout) {
-        val fadeIn = ObjectAnimator.ofFloat(menuBar, "alpha", 0f, 1f)
-        fadeIn.duration = 500 // Animasyon süresi, istediğin gibi ayarlayabilirsin
-
-        fadeIn.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator) {
-                super.onAnimationStart(animation)
-                menuBar.visibility = View.VISIBLE
-            }
-        })
-
-        fadeIn.start()
-    }
-
-    private fun hideMenuWithFadeOut(menuBar: LinearLayout) {
-        val fadeOut = ObjectAnimator.ofFloat(menuBar, "alpha", 1f, 0f)
-        fadeOut.duration = 500 // Animasyon süresi, istediğin gibi ayarlayabilirsin
-
-        fadeOut.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                super.onAnimationEnd(animation)
-                menuBar.visibility = View.GONE
-            }
-        })
-
-        fadeOut.start()
-    }
-
-    private fun showOrHideMenuWithAnimation(menuBar: LinearLayout) {
-        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                scrolling = newState == RecyclerView.SCROLL_STATE_DRAGGING
-            }
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                if (dy > 0 && menuBar.visibility == View.VISIBLE && !scrolling) {
-                    hideMenuWithFadeOut(menuBar)
-                } else if (dy < 0 && menuBar.visibility != View.VISIBLE && !scrolling) {
-                    showMenuWithFadeIn(menuBar)
-                }
-            }
-        })
-    }
 
 
     private fun initRecycler(){

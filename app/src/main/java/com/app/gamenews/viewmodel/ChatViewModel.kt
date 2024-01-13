@@ -18,6 +18,8 @@ class ChatViewModel  (application: Application) : AndroidViewModel(application) 
     private val _list = MutableStateFlow<List<Chat>>(emptyList())
     val list: StateFlow<List<Chat>> get() = _list
 
+
+
     init {
         observeGameListState()
     }
@@ -43,6 +45,18 @@ class ChatViewModel  (application: Application) : AndroidViewModel(application) 
         repo.sendMessage(chat, context)
     }
 
+
+    fun markMessageAsRead(chat: Chat) {
+        repo.markMessageAsRead(chat)
+    }
+    fun markLastMessageAsRead(chat: Chat){
+        repo.markLastMessageAsRead(chat)
+    }
+
+
+    fun getUnreadMessages(userId: String,callback: (Int?) -> Unit){
+        repo.getUnreadMessages(userId, callback)
+    }
 
 
 //    fun getAllMessages(myId : String, userId : String) : Flow<List<Chat>> {

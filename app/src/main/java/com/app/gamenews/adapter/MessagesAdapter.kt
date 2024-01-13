@@ -25,7 +25,7 @@ import www.sanju.motiontoast.MotionToastStyle
 
 
 class MessagesAdapter(private val chatList: ArrayList<Chat>, private val context: Context
-    ,private val userViewModel: UserViewModel
+    ,private val userViewModel: UserViewModel,private val chatViewModel: ChatViewModel
 
 ) : RecyclerView.Adapter<MessagesAdapter.MyHolder>() {
 
@@ -101,6 +101,7 @@ class MessagesAdapter(private val chatList: ArrayList<Chat>, private val context
             intent.putExtra("receiverId",chat.receiverId)
             context.startActivity(intent)
         }else{
+            chatViewModel.markLastMessageAsRead(chat)
             val intent = Intent(context, ChatActivity::class.java)
             intent.putExtra("receiverId",chat.senderId)
             context.startActivity(intent)

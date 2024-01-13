@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/comment_bg"
+        android:background="#B3B5B8"
         android:padding="@dimen/_5sdp">
 
 
@@ -21,11 +21,21 @@
             android:id="@+id/imgLay"
             android:orientation="vertical">
 
+            <ImageView
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:src="@drawable/more_vertical_circle_svgrepo_com"
+                android:id="@+id/reportBtn"
+                android:background="?android:selectableItemBackgroundBorderless"
+                app:tint="?android:textColorPrimary" />
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
                 android:src="@drawable/profile_user_svgrepo_com"
                 android:id="@+id/userImage"/>
+
+
 
 
         </LinearLayout>
@@ -52,7 +62,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/comment"
+                android:id="@+id/message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -62,12 +72,11 @@
 
                 />
 
-
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#DD8F8F8F"
+                android:textColor="#DDE6E6E6"
                 android:text=""
                 android:padding="@dimen/_2sdp"
                 android:layout_gravity="center"
@@ -79,7 +88,6 @@
 
 
         </LinearLayout>
-
 
 
 

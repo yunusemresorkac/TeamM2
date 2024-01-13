@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.RoomsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Odalar"
+        android:id="@+id/toolbar">
+
+
+
+        <ImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:src="@drawable/add_circle_svgrepo_com__1_"
+            android:id="@+id/createRoom"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:background="?selectableItemBackgroundBorderless"
+
+            app:tint="?android:textColorPrimary" />
+
+        <ImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:src="@drawable/join_files_button_svgrepo_com"
+            android:id="@+id/findByIdBtn"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:tint="?android:textColorPrimary" />
+
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recyclerView"
+        tools:listitem="@layout/room_item"/>
+
+
+</LinearLayout>
